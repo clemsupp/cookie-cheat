@@ -1,0 +1,605 @@
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Cheat</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+        }
+
+        .card {
+            background: #1b1b1b;
+            border: 1px solid #333;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,.4);
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #999;
+            margin-bottom: 30px;
+        }
+
+        input,
+        textarea,
+        button {
+            font-family: inherit;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            background: #111;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 12px;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #777;
+        }
+
+        textarea {
+            min-height: 180px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            border: 0;
+            border-radius: 8px;
+            padding: 13px;
+            margin-top: 12px;
+            background: #eee;
+            color: #111;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #ccc;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .error {
+            color: #ff5555;
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        .success {
+            color: #55dd77;
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .stat {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .stat-title {
+            color: #999;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .field {
+            margin-top: 18px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 7px;
+            color: #ccc;
+        }
+
+        .warning {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #2a2415;
+            border: 1px solid #5c4d22;
+            color: #e8d58b;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- MOT DE PASSE -->
+    <div class="card" id="loginScreen">
+        <h1>🍪 Cookie Cheat</h1>
+        <p class="subtitle">Accès sécurisé</p>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Mot de passe"
+            autocomplete="off"
+        >
+
+        <button onclick="login()">Entrer</button>
+
+        <div id="loginError" class="error"></div>
+    </div>
+
+
+    <!-- APPLICATION -->
+    <div class="card hidden" id="app">
+
+        <h1>🍪 Cookie Cheat</h1>
+
+        <p class="subtitle">
+            Colle ta sauvegarde Cookie Clicker ci-dessous.
+        </p>
+
+        <div class="field">
+            <label for="saveInput">Sauvegarde Cookie Clicker</label>
+
+            <textarea
+                id="saveInput"
+                placeholder="Colle ta sauvegarde ici..."
+            ></textarea>
+        </div>
+
+        <button onclick="analyseSave()">
+            Analyser la sauvegarde
+        </button>
+
+        <div id="message"></div>
+
+        <div id="editor" class="hidden">
+
+            <div class="stats">
+
+                <div class="stat">
+                    <div class="stat-title">Cookies</div>
+                    <div class="stat-value" id="cookiesDisplay">-</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-title">Cookies totaux</div>
+                    <div class="stat-value" id="totalCookiesDisplay">-</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-title">Cookies / seconde</div>
+                    <div class="stat-value" id="cpsDisplay">-</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-title">Prestige</div>
+                    <div class="stat-value" id="prestigeDisplay">-</div>
+                </div>
+
+            </div>
+
+
+            <h2>Modifier</h2>
+
+            <div class="field">
+                <label for="cookiesInput">
+                    Nombre de cookies
+                </label>
+
+                <input
+                    type="text"
+                    id="cookiesInput"
+                    placeholder="Ex : 1000000000"
+                >
+            </div>
+
+            <div class="field">
+                <label for="prestigeInput">
+                    Prestige
+                </label>
+
+                <input
+                    type="text"
+                    id="prestigeInput"
+                    placeholder="Ex : 1000"
+                >
+            </div>
+
+            <button onclick="generateSave()">
+                Générer la sauvegarde
+            </button>
+
+            <div id="result" class="hidden">
+
+                <div class="field">
+                    <label for="outputSave">
+                        Nouvelle sauvegarde
+                    </label>
+
+                    <textarea
+                        id="outputSave"
+                        readonly
+                    ></textarea>
+                </div>
+
+                <button onclick="copySave()">
+                    Copier la sauvegarde
+                </button>
+
+            </div>
+
+            <div class="warning">
+                ⚠️ Fais toujours une copie de ta sauvegarde originale avant
+                de tester une sauvegarde modifiée.
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /*
+     * MOT DE PASSE
+     */
+    const PASSWORD = "passe";
+
+
+    function login() {
+
+        const password =
+            document.getElementById("password").value;
+
+        const error =
+            document.getElementById("loginError");
+
+        if (password === PASSWORD) {
+
+            document
+                .getElementById("loginScreen")
+                .classList.add("hidden");
+
+            document
+                .getElementById("app")
+                .classList.remove("hidden");
+
+        } else {
+
+            error.textContent =
+                "Mot de passe incorrect.";
+
+        }
+    }
+
+
+    /*
+     * FORMATAGE DES NOMBRES
+     */
+    function formatNumber(number) {
+
+        if (!Number.isFinite(number))
+            return "0";
+
+        return number.toLocaleString("fr-FR");
+    }
+
+
+    /*
+     * ANALYSE
+     *
+     * Cette première version accepte notamment
+     * les sauvegardes Cookie Clicker sous forme
+     * de texte décodé.
+     */
+    function analyseSave() {
+
+        const save =
+            document.getElementById("saveInput").value.trim();
+
+        const message =
+            document.getElementById("message");
+
+        if (!save) {
+
+            message.className = "error";
+            message.textContent =
+                "Colle d'abord une sauvegarde.";
+
+            return;
+        }
+
+        /*
+         * Cookie Clicker utilise généralement
+         * un format encodé.
+         *
+         * Pour cette première version, on tente
+         * plusieurs méthodes de lecture.
+         */
+
+        let decoded = save;
+
+        try {
+
+            decoded = decodeURIComponent(
+                escape(
+                    atob(save)
+                )
+            );
+
+        } catch (e) {
+
+            try {
+
+                decoded = atob(save);
+
+            } catch (e2) {
+
+                decoded = save;
+
+            }
+
+        }
+
+
+        /*
+         * Recherche approximative de certaines
+         * informations.
+         *
+         * Le générateur complet dépendra du format
+         * exact de ta sauvegarde.
+         */
+
+        let cookies = extractNumber(
+            decoded,
+            /cookies\s*[:=]\s*([0-9.eE+-]+)/i
+        );
+
+        let totalCookies = extractNumber(
+            decoded,
+            /totalCookies\s*[:=]\s*([0-9.eE+-]+)/i
+        );
+
+        let cps = extractNumber(
+            decoded,
+            /cookiesPerSecond\s*[:=]\s*([0-9.eE+-]+)/i
+        );
+
+        let prestige = extractNumber(
+            decoded,
+            /prestige\s*[:=]\s*([0-9.eE+-]+)/i
+        );
+
+
+        /*
+         * Si aucune donnée n'est trouvée,
+         * on indique simplement que la sauvegarde
+         * nécessite le vrai décodeur Cookie Clicker.
+         */
+
+        if (
+            cookies === null &&
+            totalCookies === null &&
+            cps === null &&
+            prestige === null
+        ) {
+
+            message.className = "error";
+
+            message.textContent =
+                "Sauvegarde détectée, mais son format doit être décodé avec le format exact de Cookie Clicker.";
+
+            document
+                .getElementById("editor")
+                .classList.remove("hidden");
+
+            return;
+        }
+
+
+        document
+            .getElementById("editor")
+            .classList.remove("hidden");
+
+        message.className = "success";
+        message.textContent =
+            "Sauvegarde analysée.";
+
+        document.getElementById(
+            "cookiesDisplay"
+        ).textContent =
+            cookies !== null
+                ? formatNumber(cookies)
+                : "-";
+
+        document.getElementById(
+            "totalCookiesDisplay"
+        ).textContent =
+            totalCookies !== null
+                ? formatNumber(totalCookies)
+                : "-";
+
+        document.getElementById(
+            "cpsDisplay"
+        ).textContent =
+            cps !== null
+                ? formatNumber(cps)
+                : "-";
+
+        document.getElementById(
+            "prestigeDisplay"
+        ).textContent =
+            prestige !== null
+                ? formatNumber(prestige)
+                : "-";
+
+
+        document.getElementById(
+            "cookiesInput"
+        ).value =
+            cookies !== null ? cookies : "";
+
+        document.getElementById(
+            "prestigeInput"
+        ).value =
+            prestige !== null ? prestige : "";
+
+    }
+
+
+    function extractNumber(text, regex) {
+
+        const match = text.match(regex);
+
+        if (!match)
+            return null;
+
+        const number = Number(match[1]);
+
+        return Number.isFinite(number)
+            ? number
+            : null;
+    }
+
+
+    /*
+     * GÉNÉRATION
+     */
+    function generateSave() {
+
+        const original =
+            document.getElementById("saveInput").value.trim();
+
+        const cookies =
+            document.getElementById("cookiesInput").value;
+
+        const prestige =
+            document.getElementById("prestigeInput").value;
+
+
+        if (!original) {
+
+            alert("Aucune sauvegarde.");
+            return;
+
+        }
+
+
+        /*
+         * Pour l'instant on conserve la sauvegarde
+         * originale.
+         *
+         * Le véritable remplacement des valeurs
+         * sera ajouté avec le décodeur exact de
+         * Cookie Clicker.
+         */
+
+        document.getElementById(
+            "outputSave"
+        ).value = original;
+
+        document
+            .getElementById("result")
+            .classList.remove("hidden");
+
+    }
+
+
+    /*
+     * COPIER
+     */
+    async function copySave() {
+
+        const output =
+            document.getElementById("outputSave");
+
+        try {
+
+            await navigator.clipboard.writeText(
+                output.value
+            );
+
+            alert(
+                "Sauvegarde copiée dans le presse-papiers !"
+            );
+
+        } catch (e) {
+
+            output.select();
+            document.execCommand("copy");
+
+            alert(
+                "Sauvegarde copiée !"
+            );
+
+        }
+
+    }
+
+
+    /*
+     * ENTER POUR SE CONNECTER
+     */
+    document
+        .getElementById("password")
+        .addEventListener("keydown", function(event) {
+
+            if (event.key === "Enter") {
+                login();
+            }
+
+        });
+
+</script>
+
+</body>
+</html>
+```
