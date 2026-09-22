@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -200,7 +199,7 @@ button.clear:hover{
     </p>
 
 
-    <!-- SAUVEGARDE ORIGINALE -->
+    <!-- SAUVEGARDE -->
 
     <div class="card">
 
@@ -213,11 +212,12 @@ button.clear:hover{
 
         <div class="button-row">
 
-            <button onclick="decodeSaveUI()">
+            <button type="button" onclick="decodeSaveUI()">
                 Décoder la sauvegarde
             </button>
 
             <button
+                type="button"
                 class="clear"
                 onclick="clearSave()"
             >
@@ -233,7 +233,7 @@ button.clear:hover{
     </div>
 
 
-    <!-- INFORMATIONS -->
+    <!-- EDITEUR -->
 
     <div id="editor" class="hidden">
 
@@ -365,7 +365,10 @@ button.clear:hover{
 
             <div class="button-row">
 
-                <button onclick="generateSave()">
+                <button
+                    type="button"
+                    onclick="generateSave()"
+                >
                     🔨 Générer la sauvegarde
                 </button>
 
@@ -393,7 +396,10 @@ button.clear:hover{
                 readonly
             ></textarea>
 
-            <button onclick="copySave()">
+            <button
+                type="button"
+                onclick="copySave()"
+            >
                 📋 Copier la sauvegarde
             </button>
 
@@ -423,32 +429,25 @@ const PASSWORD = "passe";
 function login(){
 
     const password =
-        document.getElementById(
-            "password"
-        ).value;
+        document.getElementById("password").value;
 
     const error =
-        document.getElementById(
-            "loginError"
-        );
+        document.getElementById("loginError");
+
+    error.style.display = "none";
 
     if(password === PASSWORD){
 
-        document.getElementById(
-            "loginScreen"
-        ).style.display = "none";
+        document.getElementById("loginScreen").style.display = "none";
 
-        document.getElementById(
-            "app"
-        ).style.display = "block";
+        document.getElementById("app").style.display = "block";
 
     }else{
 
         error.textContent =
             "Mot de passe incorrect.";
 
-        error.style.display =
-            "block";
+        error.style.display = "block";
 
     }
 
@@ -469,12 +468,16 @@ function numberValue(value){
         return 0;
     }
 
-    let number =
-        Number(
-            String(value)
-                .replace(/,/g,"")
-                .replace(/\s/g,"")
-        );
+    let text = String(value)
+        .trim()
+        .replace(/,/g,"")
+        .replace(/\s/g,"");
+
+    /*
+     * Accepte aussi les nombres avec .
+     */
+
+    const number = Number(text);
 
     if(!Number.isFinite(number)){
         return 0;
@@ -505,24 +508,45 @@ function formatNumber(number){
 
 function decodeCookieSave(input){
 
-    input =
-        input.trim();
+    input = input.trim();
 
     if(!input){
+
         throw new Error(
             "La sauvegarde est vide."
         );
+
     }
 
 
     /*
-     * Certaines sauvegardes peuvent contenir
-     * !END! à la fin.
+     * Certaines sauvegardes sont URL-encodées.
+     *
+     * Exemple :
+     * %3D
+     * %21
+     * etc.
      */
 
-    if(
-        input.includes("!END!")
-    ){
+    try{
+
+        input = decodeURIComponent(input);
+
+    }catch(e){
+
+        /*
+         * Si elle n'est pas URL-encodée,
+         * on continue normalement.
+         */
+
+    }
+
+
+    /*
+     * Retirer !END! s'il est présent.
+     */
+
+    if(input.includes("!END!")){
 
         input =
             input.split("!END!")[0];
@@ -531,7 +555,8 @@ function decodeCookieSave(input){
 
 
     /*
-     * Suppression d'espaces
+     * Retirer les espaces et retours
+     * à la ligne.
      */
 
     input =
@@ -539,36 +564,48 @@ function decodeCookieSave(input){
 
 
     /*
-     * Cookie Clicker utilise une sauvegarde
-     * encodée en Base64.
+     * Si le texte est déjà décodé,
+     * on peut directement l'utiliser.
+     */
+
+    if(
+        input.includes("|") &&
+        input.includes(";")
+    ){
+
+        return input;
+
+    }
+
+
+    /*
+     * Décodage Base64.
      */
 
     let binary;
 
     try{
 
-        binary =
-            atob(input);
+        binary = atob(input);
 
-    }catch(error){
+    }catch(e){
 
         throw new Error(
-            "La sauvegarde n'est pas une sauvegarde Cookie Clicker valide."
+            "Impossible de décoder la sauvegarde. Vérifie que tu as copié toute la sauvegarde Cookie Clicker."
         );
 
     }
 
 
     /*
-     * Conversion UTF-8 correcte.
+     * Conversion binaire -> UTF-8.
      */
 
     try{
 
         const bytes =
-            new Uint8Array(
-                binary.length
-            );
+            new Uint8Array(binary.length);
+
 
         for(
             let i = 0;
@@ -581,44 +618,61 @@ function decodeCookieSave(input){
 
         }
 
+
         const decoded =
-            new TextDecoder(
-                "utf-8"
-            ).decode(bytes);
+            new TextDecoder("utf-8")
+                .decode(bytes);
+
 
         if(
-            !decoded.includes("|")
+            decoded.includes("|")
         ){
 
-            throw new Error(
-                "Structure Cookie Clicker non reconnue."
-            );
+            return decoded;
 
         }
 
-        return decoded;
-
-    }catch(error){
+    }catch(e){
 
         /*
-         * Ancienne méthode de secours
+         * On essaie la méthode de secours.
          */
 
-        try{
+    }
 
-            return decodeURIComponent(
+
+    /*
+     * Méthode de secours.
+     */
+
+    try{
+
+        const decoded =
+            decodeURIComponent(
                 escape(binary)
             );
 
-        }catch(e){
 
-            throw new Error(
-                "Impossible de décoder la sauvegarde."
-            );
+        if(
+            decoded.includes("|")
+        ){
+
+            return decoded;
 
         }
 
+    }catch(e){
+
+        /*
+         * Rien.
+         */
+
     }
+
+
+    throw new Error(
+        "La sauvegarde a été décodée mais son format n'est pas reconnu."
+    );
 
 }
 
@@ -645,20 +699,17 @@ function parseCookieSave(decoded){
 
 
     /*
-     * SECTION 4 :
+     * Section 4 :
      *
-     * cookies
-     * cookiesEarned
-     * cookieClicks
-     * goldenClicks
-     * handmadeCookies
-     * cookiesMissed
+     * 0 = cookies actuels
+     * 1 = cookies gagnés
      * ...
-     * cookiesReset
+     * 8 = cookies reset
      */
 
     const cookieSection =
         sections[4] || "";
+
 
     const stats =
         cookieSection.split(";");
@@ -683,25 +734,17 @@ function parseCookieSave(decoded){
 
 
     /*
-     * Calcul approximatif du prestige
-     * à partir des cookies reset.
+     * Estimation du prestige.
      */
 
     let prestige = 0;
 
-    if(
-        cookiesReset > 0
-    ){
 
-        /*
-         * Prestige :
-         *
-         * cookiesReset =
-         * prestige * (prestige + 1) / 2 * 1e12
-         */
+    if(cookiesReset > 0){
 
         const value =
-            cookiesReset / 1e12;
+            cookiesReset / 1000000000000;
+
 
         prestige =
             Math.floor(
@@ -717,15 +760,15 @@ function parseCookieSave(decoded){
 
     return {
 
-        sections,
+        sections: sections,
 
-        cookies,
+        cookies: cookies,
 
-        cookiesEarned,
+        cookiesEarned: cookiesEarned,
 
-        cookiesReset,
+        cookiesReset: cookiesReset,
 
-        prestige
+        prestige: prestige
 
     };
 
@@ -733,57 +776,59 @@ function parseCookieSave(decoded){
 
 
 /* ==========================================
-   AFFICHAGE
+   VARIABLE SAVE ACTUELLE
 ========================================== */
 
 let currentSave = null;
 
 
+/* ==========================================
+   DÉCODER
+========================================== */
+
 function decodeSaveUI(){
 
     const error =
-        document.getElementById(
-            "error"
-        );
+        document.getElementById("error");
+
 
     const success =
-        document.getElementById(
-            "success"
-        );
+        document.getElementById("success");
 
 
-    error.style.display =
-        "none";
+    error.style.display = "none";
 
-    success.style.display =
-        "none";
+    success.style.display = "none";
 
 
     try{
 
         const input =
-            document.getElementById(
-                "saveInput"
-            ).value;
-
-
-        const decoded =
-            decodeCookieSave(
-                input
-            );
-
-
-        const save =
-            parseCookieSave(
-                decoded
-            );
-
-
-        currentSave = save;
+            document.getElementById("saveInput").value;
 
 
         /*
-         * Affichage
+         * Décodage.
+         */
+
+        const decoded =
+            decodeCookieSave(input);
+
+
+        /*
+         * Analyse.
+         */
+
+        const save =
+            parseCookieSave(decoded);
+
+
+        currentSave =
+            save;
+
+
+        /*
+         * Affichage cookies.
          */
 
         document.getElementById(
@@ -819,7 +864,7 @@ function decodeSaveUI(){
 
 
         /*
-         * Champs
+         * Remplir les champs.
          */
 
         document.getElementById(
@@ -840,6 +885,10 @@ function decodeSaveUI(){
             save.cookiesReset;
 
 
+        /*
+         * Afficher l'éditeur.
+         */
+
         document.getElementById(
             "editor"
         ).classList.remove(
@@ -850,14 +899,20 @@ function decodeSaveUI(){
         success.textContent =
             "✓ Sauvegarde Cookie Clicker décodée avec succès.";
 
+
         success.style.display =
             "block";
 
 
     }catch(error){
 
+        console.error(error);
+
+
         error.textContent =
-            error.message;
+            error.message ||
+            "Une erreur est survenue.";
+
 
         error.style.display =
             "block";
@@ -868,7 +923,7 @@ function decodeSaveUI(){
 
 
 /* ==========================================
-   MODIFICATION DE LA SAVE
+   GÉNÉRER LA NOUVELLE SAVE
 ========================================== */
 
 function generateSave(){
@@ -885,7 +940,7 @@ function generateSave(){
 
 
     /*
-     * On fait une copie des sections.
+     * Copie des sections.
      */
 
     const sections =
@@ -895,7 +950,7 @@ function generateSave(){
 
 
     /*
-     * Récupération de la section cookies.
+     * Section des statistiques.
      */
 
     const stats =
@@ -933,7 +988,7 @@ function generateSave(){
 
 
     /*
-     * Modification des données.
+     * Modification.
      */
 
     stats[0] =
@@ -965,13 +1020,11 @@ function generateSave(){
 
 
     /*
-     * Encodage Cookie Clicker.
+     * Réencodage.
      */
 
     const encoded =
-        encodeCookieSave(
-            decoded
-        );
+        encodeCookieSave(decoded);
 
 
     /*
@@ -1000,7 +1053,7 @@ function generateSave(){
 function encodeCookieSave(decoded){
 
     /*
-     * Conversion UTF-8 -> Base64
+     * Texte -> UTF-8
      */
 
     const bytes =
@@ -1008,7 +1061,12 @@ function encodeCookieSave(decoded){
             .encode(decoded);
 
 
+    /*
+     * UTF-8 -> binaire
+     */
+
     let binary = "";
+
 
     for(
         let i = 0;
@@ -1024,7 +1082,22 @@ function encodeCookieSave(decoded){
     }
 
 
-    return btoa(binary);
+    /*
+     * Binaire -> Base64
+     */
+
+    const base64 =
+        btoa(binary);
+
+
+    /*
+     * Format exporté.
+     */
+
+    return (
+        encodeURIComponent(base64) +
+        "%21END%21"
+    );
 
 }
 
@@ -1069,7 +1142,7 @@ async function copySave(){
 
 
     setTimeout(
-        () => {
+        function(){
 
             message.style.display =
                 "none";
@@ -1125,7 +1198,7 @@ function clearSave(){
 
 
 /* ==========================================
-   ENTER = CONNEXION
+   TOUCHE ENTRÉE POUR LE MOT DE PASSE
 ========================================== */
 
 document
@@ -1149,4 +1222,3 @@ document
 
 </body>
 </html>
-```
