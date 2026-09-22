@@ -2,281 +2,406 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cookie Cheat</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cookie Cheat</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+*{
+    box-sizing:border-box;
+}
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-            background: #111;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#171717;
+    color:#eee;
+}
 
-        .container {
-            width: 90%;
-            max-width: 900px;
-        }
+.container{
+    max-width:1000px;
+    margin:30px auto;
+    padding:20px;
+}
 
-        .card {
-            background: #1b1b1b;
-            border: 1px solid #333;
-            border-radius: 14px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,.4);
-        }
+h1{
+    margin-top:0;
+}
 
-        h1 {
-            text-align: center;
-            margin-top: 0;
-        }
+.card{
+    background:#202020;
+    border:1px solid #333;
+    border-radius:10px;
+    padding:20px;
+    margin-bottom:18px;
+}
 
-        .subtitle {
-            text-align: center;
-            color: #999;
-            margin-bottom: 30px;
-        }
+textarea{
+    width:100%;
+    min-height:180px;
+    resize:vertical;
+    background:#222;
+    color:#eee;
+    border:1px solid #444;
+    border-radius:8px;
+    padding:12px;
+    font-family:monospace;
+}
 
-        input,
-        textarea,
-        button {
-            font-family: inherit;
-        }
+input{
+    width:100%;
+    background:#292929;
+    color:#eee;
+    border:1px solid #444;
+    border-radius:7px;
+    padding:11px;
+    margin-top:6px;
+}
 
-        input,
-        textarea {
-            width: 100%;
-            background: #111;
-            color: white;
-            border: 1px solid #444;
-            border-radius: 8px;
-            padding: 12px;
-            outline: none;
-        }
+button{
+    margin-top:12px;
+    padding:10px 18px;
+    border:0;
+    border-radius:7px;
+    cursor:pointer;
+    background:#e0a400;
+    color:#111;
+    font-weight:bold;
+}
 
-        input:focus,
-        textarea:focus {
-            border-color: #777;
-        }
+button:hover{
+    background:#ffc107;
+}
 
-        textarea {
-            min-height: 180px;
-            resize: vertical;
-        }
+button.clear{
+    background:#444;
+    color:#eee;
+}
 
-        button {
-            width: 100%;
-            border: 0;
-            border-radius: 8px;
-            padding: 13px;
-            margin-top: 12px;
-            background: #eee;
-            color: #111;
-            font-weight: bold;
-            cursor: pointer;
-        }
+button.clear:hover{
+    background:#555;
+}
 
-        button:hover {
-            background: #ccc;
-        }
+.button-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
 
-        .hidden {
-            display: none;
-        }
+.error{
+    margin-top:15px;
+    padding:12px;
+    background:#421c1c;
+    border:1px solid #8c3333;
+    border-radius:7px;
+    display:none;
+}
 
-        .error {
-            color: #ff5555;
-            text-align: center;
-            margin-top: 12px;
-        }
+.success{
+    margin-top:15px;
+    padding:12px;
+    background:#1c421f;
+    border:1px solid #338c3d;
+    border-radius:7px;
+    display:none;
+}
 
-        .success {
-            color: #55dd77;
-            text-align: center;
-            margin-top: 12px;
-        }
+.hidden{
+    display:none;
+}
 
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
-            margin: 20px 0;
-        }
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:12px;
+}
 
-        .stat {
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 16px;
-        }
+.stat{
+    background:#292929;
+    padding:15px;
+    border-radius:8px;
+}
 
-        .stat-title {
-            color: #999;
-            font-size: 13px;
-            margin-bottom: 6px;
-        }
+.label{
+    color:#aaa;
+    font-size:13px;
+}
 
-        .stat-value {
-            font-size: 20px;
-            font-weight: bold;
-        }
+.value{
+    margin-top:5px;
+    font-size:21px;
+    font-weight:bold;
+}
 
-        .field {
-            margin-top: 18px;
-        }
+.field{
+    margin-top:15px;
+}
 
-        .field label {
-            display: block;
-            margin-bottom: 7px;
-            color: #ccc;
-        }
+.field label{
+    color:#aaa;
+    font-size:14px;
+}
 
-        .warning {
-            margin-top: 20px;
-            padding: 12px;
-            border-radius: 8px;
-            background: #2a2415;
-            border: 1px solid #5c4d22;
-            color: #e8d58b;
-            font-size: 14px;
-        }
-    </style>
+.login{
+    max-width:450px;
+    margin:100px auto;
+}
+
+#app{
+    display:none;
+}
+</style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- =========================
+     CONNEXION
+========================= -->
 
-    <!-- MOT DE PASSE -->
-    <div class="card" id="loginScreen">
+<div class="container login" id="loginScreen">
+
+    <div class="card">
+
         <h1>🍪 Cookie Cheat</h1>
-        <p class="subtitle">Accès sécurisé</p>
+
+        <p>
+            Entre le mot de passe pour accéder au Cheat.
+        </p>
 
         <input
-            type="password"
             id="password"
+            type="password"
             placeholder="Mot de passe"
             autocomplete="off"
         >
 
-        <button onclick="login()">Entrer</button>
+        <button onclick="login()">
+            Entrer
+        </button>
 
         <div id="loginError" class="error"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     APPLICATION
+========================= -->
+
+<div class="container" id="app">
+
+    <h1>🍪 Cookie Cheat</h1>
+
+    <p>
+        Colle ta sauvegarde Cookie Clicker ci-dessous.
+    </p>
+
+
+    <!-- SAUVEGARDE ORIGINALE -->
+
+    <div class="card">
+
+        <h2>📥 Sauvegarde</h2>
+
+        <textarea
+            id="saveInput"
+            placeholder="Colle ta sauvegarde Cookie Clicker ici..."
+        ></textarea>
+
+        <div class="button-row">
+
+            <button onclick="decodeSaveUI()">
+                Décoder la sauvegarde
+            </button>
+
+            <button
+                class="clear"
+                onclick="clearSave()"
+            >
+                Effacer
+            </button>
+
+        </div>
+
+        <div id="error" class="error"></div>
+
+        <div id="success" class="success"></div>
+
     </div>
 
 
-    <!-- APPLICATION -->
-    <div class="card hidden" id="app">
+    <!-- INFORMATIONS -->
 
-        <h1>🍪 Cookie Cheat</h1>
+    <div id="editor" class="hidden">
 
-        <p class="subtitle">
-            Colle ta sauvegarde Cookie Clicker ci-dessous.
-        </p>
+        <div class="card">
 
-        <div class="field">
-            <label for="saveInput">Sauvegarde Cookie Clicker</label>
+            <h2>📊 Sauvegarde détectée</h2>
 
-            <textarea
-                id="saveInput"
-                placeholder="Colle ta sauvegarde ici..."
-            ></textarea>
+            <div class="grid">
+
+                <div class="stat">
+
+                    <div class="label">
+                        Cookies actuels
+                    </div>
+
+                    <div
+                        class="value"
+                        id="cookiesDisplay"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="label">
+                        Cookies totaux
+                    </div>
+
+                    <div
+                        class="value"
+                        id="totalCookiesDisplay"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="label">
+                        Cookies reset
+                    </div>
+
+                    <div
+                        class="value"
+                        id="resetCookiesDisplay"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="label">
+                        Prestige
+                    </div>
+
+                    <div
+                        class="value"
+                        id="prestigeDisplay"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <button onclick="analyseSave()">
-            Analyser la sauvegarde
-        </button>
 
-        <div id="message"></div>
+        <!-- MODIFICATION -->
 
-        <div id="editor" class="hidden">
+        <div class="card">
 
-            <div class="stats">
+            <h2>⚙️ Modifier</h2>
 
-                <div class="stat">
-                    <div class="stat-title">Cookies</div>
-                    <div class="stat-value" id="cookiesDisplay">-</div>
-                </div>
-
-                <div class="stat">
-                    <div class="stat-title">Cookies totaux</div>
-                    <div class="stat-value" id="totalCookiesDisplay">-</div>
-                </div>
-
-                <div class="stat">
-                    <div class="stat-title">Cookies / seconde</div>
-                    <div class="stat-value" id="cpsDisplay">-</div>
-                </div>
-
-                <div class="stat">
-                    <div class="stat-title">Prestige</div>
-                    <div class="stat-value" id="prestigeDisplay">-</div>
-                </div>
-
-            </div>
-
-
-            <h2>Modifier</h2>
 
             <div class="field">
-                <label for="cookiesInput">
-                    Nombre de cookies
+
+                <label>
+                    Cookies actuels
                 </label>
 
                 <input
-                    type="text"
                     id="cookiesInput"
-                    placeholder="Ex : 1000000000"
+                    type="text"
+                    placeholder="Ex : 1000000000000"
                 >
+
             </div>
 
+
             <div class="field">
-                <label for="prestigeInput">
-                    Prestige
+
+                <label>
+                    Cookies totaux
                 </label>
 
                 <input
+                    id="totalCookiesInput"
                     type="text"
-                    id="prestigeInput"
-                    placeholder="Ex : 1000"
+                    placeholder="Ex : 1000000000000"
                 >
+
             </div>
 
-            <button onclick="generateSave()">
-                Générer la sauvegarde
-            </button>
 
-            <div id="result" class="hidden">
+            <div class="field">
 
-                <div class="field">
-                    <label for="outputSave">
-                        Nouvelle sauvegarde
-                    </label>
+                <label>
+                    Cookies reset
+                </label>
 
-                    <textarea
-                        id="outputSave"
-                        readonly
-                    ></textarea>
-                </div>
+                <input
+                    id="resetCookiesInput"
+                    type="text"
+                    placeholder="Ex : 1000000000000"
+                >
 
-                <button onclick="copySave()">
-                    Copier la sauvegarde
+            </div>
+
+
+            <div class="button-row">
+
+                <button onclick="generateSave()">
+                    🔨 Générer la sauvegarde
                 </button>
 
             </div>
 
-            <div class="warning">
-                ⚠️ Fais toujours une copie de ta sauvegarde originale avant
-                de tester une sauvegarde modifiée.
+        </div>
+
+
+        <!-- NOUVELLE SAVE -->
+
+        <div
+            class="card hidden"
+            id="outputCard"
+        >
+
+            <h2>📤 Nouvelle sauvegarde</h2>
+
+            <p>
+                Copie cette sauvegarde puis importe-la
+                dans Cookie Clicker.
+            </p>
+
+            <textarea
+                id="outputSave"
+                readonly
+            ></textarea>
+
+            <button onclick="copySave()">
+                📋 Copier la sauvegarde
+            </button>
+
+            <div
+                id="copyMessage"
+                class="success"
+            >
+                Sauvegarde copiée !
             </div>
 
         </div>
@@ -288,315 +413,737 @@
 
 <script>
 
-    /*
-     * MOT DE PASSE
-     */
-    const PASSWORD = "passe";
+/* ==========================================
+   MOT DE PASSE
+========================================== */
+
+const PASSWORD = "passe";
 
 
-    function login() {
+function login(){
 
-        const password =
-            document.getElementById("password").value;
+    const password =
+        document.getElementById(
+            "password"
+        ).value;
 
-        const error =
-            document.getElementById("loginError");
+    const error =
+        document.getElementById(
+            "loginError"
+        );
 
-        if (password === PASSWORD) {
+    if(password === PASSWORD){
 
-            document
-                .getElementById("loginScreen")
-                .classList.add("hidden");
+        document.getElementById(
+            "loginScreen"
+        ).style.display = "none";
 
-            document
-                .getElementById("app")
-                .classList.remove("hidden");
+        document.getElementById(
+            "app"
+        ).style.display = "block";
 
-        } else {
+    }else{
 
-            error.textContent =
-                "Mot de passe incorrect.";
+        error.textContent =
+            "Mot de passe incorrect.";
 
+        error.style.display =
+            "block";
+
+    }
+
+}
+
+
+/* ==========================================
+   UTILITAIRES
+========================================== */
+
+function numberValue(value){
+
+    if(
+        value === null ||
+        value === undefined ||
+        value === ""
+    ){
+        return 0;
+    }
+
+    let number =
+        Number(
+            String(value)
+                .replace(/,/g,"")
+                .replace(/\s/g,"")
+        );
+
+    if(!Number.isFinite(number)){
+        return 0;
+    }
+
+    return number;
+}
+
+
+function formatNumber(number){
+
+    if(!Number.isFinite(number)){
+        return "∞";
+    }
+
+    return number.toLocaleString(
+        "fr-FR",
+        {
+            maximumFractionDigits:2
         }
+    );
+}
+
+
+/* ==========================================
+   DÉCODAGE COOKIE CLICKER
+========================================== */
+
+function decodeCookieSave(input){
+
+    input =
+        input.trim();
+
+    if(!input){
+        throw new Error(
+            "La sauvegarde est vide."
+        );
     }
 
 
     /*
-     * FORMATAGE DES NOMBRES
+     * Certaines sauvegardes peuvent contenir
+     * !END! à la fin.
      */
-    function formatNumber(number) {
 
-        if (!Number.isFinite(number))
-            return "0";
+    if(
+        input.includes("!END!")
+    ){
 
-        return number.toLocaleString("fr-FR");
+        input =
+            input.split("!END!")[0];
+
     }
 
 
     /*
-     * ANALYSE
-     *
-     * Cette première version accepte notamment
-     * les sauvegardes Cookie Clicker sous forme
-     * de texte décodé.
+     * Suppression d'espaces
      */
-    function analyseSave() {
 
-        const save =
-            document.getElementById("saveInput").value.trim();
+    input =
+        input.replace(/\s/g,"");
 
-        const message =
-            document.getElementById("message");
 
-        if (!save) {
+    /*
+     * Cookie Clicker utilise une sauvegarde
+     * encodée en Base64.
+     */
 
-            message.className = "error";
-            message.textContent =
-                "Colle d'abord une sauvegarde.";
+    let binary;
 
-            return;
-        }
+    try{
 
-        /*
-         * Cookie Clicker utilise généralement
-         * un format encodé.
-         *
-         * Pour cette première version, on tente
-         * plusieurs méthodes de lecture.
-         */
+        binary =
+            atob(input);
 
-        let decoded = save;
+    }catch(error){
 
-        try {
+        throw new Error(
+            "La sauvegarde n'est pas une sauvegarde Cookie Clicker valide."
+        );
 
-            decoded = decodeURIComponent(
-                escape(
-                    atob(save)
-                )
+    }
+
+
+    /*
+     * Conversion UTF-8 correcte.
+     */
+
+    try{
+
+        const bytes =
+            new Uint8Array(
+                binary.length
             );
 
-        } catch (e) {
+        for(
+            let i = 0;
+            i < binary.length;
+            i++
+        ){
 
-            try {
-
-                decoded = atob(save);
-
-            } catch (e2) {
-
-                decoded = save;
-
-            }
+            bytes[i] =
+                binary.charCodeAt(i);
 
         }
 
+        const decoded =
+            new TextDecoder(
+                "utf-8"
+            ).decode(bytes);
+
+        if(
+            !decoded.includes("|")
+        ){
+
+            throw new Error(
+                "Structure Cookie Clicker non reconnue."
+            );
+
+        }
+
+        return decoded;
+
+    }catch(error){
 
         /*
-         * Recherche approximative de certaines
-         * informations.
+         * Ancienne méthode de secours
+         */
+
+        try{
+
+            return decodeURIComponent(
+                escape(binary)
+            );
+
+        }catch(e){
+
+            throw new Error(
+                "Impossible de décoder la sauvegarde."
+            );
+
+        }
+
+    }
+
+}
+
+
+/* ==========================================
+   ANALYSE DE LA SAVE
+========================================== */
+
+function parseCookieSave(decoded){
+
+    const sections =
+        decoded.split("|");
+
+
+    if(
+        sections.length < 6
+    ){
+
+        throw new Error(
+            "Cette sauvegarde ne possède pas le format Cookie Clicker attendu."
+        );
+
+    }
+
+
+    /*
+     * SECTION 4 :
+     *
+     * cookies
+     * cookiesEarned
+     * cookieClicks
+     * goldenClicks
+     * handmadeCookies
+     * cookiesMissed
+     * ...
+     * cookiesReset
+     */
+
+    const cookieSection =
+        sections[4] || "";
+
+    const stats =
+        cookieSection.split(";");
+
+
+    const cookies =
+        numberValue(
+            stats[0]
+        );
+
+
+    const cookiesEarned =
+        numberValue(
+            stats[1]
+        );
+
+
+    const cookiesReset =
+        numberValue(
+            stats[8]
+        );
+
+
+    /*
+     * Calcul approximatif du prestige
+     * à partir des cookies reset.
+     */
+
+    let prestige = 0;
+
+    if(
+        cookiesReset > 0
+    ){
+
+        /*
+         * Prestige :
          *
-         * Le générateur complet dépendra du format
-         * exact de ta sauvegarde.
+         * cookiesReset =
+         * prestige * (prestige + 1) / 2 * 1e12
          */
 
-        let cookies = extractNumber(
-            decoded,
-            /cookies\s*[:=]\s*([0-9.eE+-]+)/i
+        const value =
+            cookiesReset / 1e12;
+
+        prestige =
+            Math.floor(
+                (
+                    Math.sqrt(
+                        1 + 8 * value
+                    ) - 1
+                ) / 2
+            );
+
+    }
+
+
+    return {
+
+        sections,
+
+        cookies,
+
+        cookiesEarned,
+
+        cookiesReset,
+
+        prestige
+
+    };
+
+}
+
+
+/* ==========================================
+   AFFICHAGE
+========================================== */
+
+let currentSave = null;
+
+
+function decodeSaveUI(){
+
+    const error =
+        document.getElementById(
+            "error"
         );
 
-        let totalCookies = extractNumber(
-            decoded,
-            /totalCookies\s*[:=]\s*([0-9.eE+-]+)/i
+    const success =
+        document.getElementById(
+            "success"
         );
 
-        let cps = extractNumber(
-            decoded,
-            /cookiesPerSecond\s*[:=]\s*([0-9.eE+-]+)/i
-        );
 
-        let prestige = extractNumber(
-            decoded,
-            /prestige\s*[:=]\s*([0-9.eE+-]+)/i
-        );
+    error.style.display =
+        "none";
+
+    success.style.display =
+        "none";
+
+
+    try{
+
+        const input =
+            document.getElementById(
+                "saveInput"
+            ).value;
+
+
+        const decoded =
+            decodeCookieSave(
+                input
+            );
+
+
+        const save =
+            parseCookieSave(
+                decoded
+            );
+
+
+        currentSave = save;
 
 
         /*
-         * Si aucune donnée n'est trouvée,
-         * on indique simplement que la sauvegarde
-         * nécessite le vrai décodeur Cookie Clicker.
+         * Affichage
          */
-
-        if (
-            cookies === null &&
-            totalCookies === null &&
-            cps === null &&
-            prestige === null
-        ) {
-
-            message.className = "error";
-
-            message.textContent =
-                "Sauvegarde détectée, mais son format doit être décodé avec le format exact de Cookie Clicker.";
-
-            document
-                .getElementById("editor")
-                .classList.remove("hidden");
-
-            return;
-        }
-
-
-        document
-            .getElementById("editor")
-            .classList.remove("hidden");
-
-        message.className = "success";
-        message.textContent =
-            "Sauvegarde analysée.";
 
         document.getElementById(
             "cookiesDisplay"
         ).textContent =
-            cookies !== null
-                ? formatNumber(cookies)
-                : "-";
+            formatNumber(
+                save.cookies
+            );
+
 
         document.getElementById(
             "totalCookiesDisplay"
         ).textContent =
-            totalCookies !== null
-                ? formatNumber(totalCookies)
-                : "-";
+            formatNumber(
+                save.cookiesEarned
+            );
+
 
         document.getElementById(
-            "cpsDisplay"
+            "resetCookiesDisplay"
         ).textContent =
-            cps !== null
-                ? formatNumber(cps)
-                : "-";
+            formatNumber(
+                save.cookiesReset
+            );
+
 
         document.getElementById(
             "prestigeDisplay"
         ).textContent =
-            prestige !== null
-                ? formatNumber(prestige)
-                : "-";
+            formatNumber(
+                save.prestige
+            );
 
+
+        /*
+         * Champs
+         */
 
         document.getElementById(
             "cookiesInput"
         ).value =
-            cookies !== null ? cookies : "";
+            save.cookies;
+
 
         document.getElementById(
-            "prestigeInput"
+            "totalCookiesInput"
         ).value =
-            prestige !== null ? prestige : "";
+            save.cookiesEarned;
+
+
+        document.getElementById(
+            "resetCookiesInput"
+        ).value =
+            save.cookiesReset;
+
+
+        document.getElementById(
+            "editor"
+        ).classList.remove(
+            "hidden"
+        );
+
+
+        success.textContent =
+            "✓ Sauvegarde Cookie Clicker décodée avec succès.";
+
+        success.style.display =
+            "block";
+
+
+    }catch(error){
+
+        error.textContent =
+            error.message;
+
+        error.style.display =
+            "block";
 
     }
 
+}
 
-    function extractNumber(text, regex) {
 
-        const match = text.match(regex);
+/* ==========================================
+   MODIFICATION DE LA SAVE
+========================================== */
 
-        if (!match)
-            return null;
+function generateSave(){
 
-        const number = Number(match[1]);
+    if(!currentSave){
 
-        return Number.isFinite(number)
-            ? number
-            : null;
+        alert(
+            "Décode d'abord une sauvegarde."
+        );
+
+        return;
+
     }
 
 
     /*
-     * GÉNÉRATION
+     * On fait une copie des sections.
      */
-    function generateSave() {
 
-        const original =
-            document.getElementById("saveInput").value.trim();
-
-        const cookies =
-            document.getElementById("cookiesInput").value;
-
-        const prestige =
-            document.getElementById("prestigeInput").value;
+    const sections =
+        [
+            ...currentSave.sections
+        ];
 
 
-        if (!original) {
+    /*
+     * Récupération de la section cookies.
+     */
 
-            alert("Aucune sauvegarde.");
-            return;
+    const stats =
+        (
+            sections[4] || ""
+        ).split(";");
 
-        }
+
+    /*
+     * Nouvelles valeurs.
+     */
+
+    const cookies =
+        numberValue(
+            document.getElementById(
+                "cookiesInput"
+            ).value
+        );
 
 
-        /*
-         * Pour l'instant on conserve la sauvegarde
-         * originale.
-         *
-         * Le véritable remplacement des valeurs
-         * sera ajouté avec le décodeur exact de
-         * Cookie Clicker.
-         */
+    const totalCookies =
+        numberValue(
+            document.getElementById(
+                "totalCookiesInput"
+            ).value
+        );
 
+
+    const cookiesReset =
+        numberValue(
+            document.getElementById(
+                "resetCookiesInput"
+            ).value
+        );
+
+
+    /*
+     * Modification des données.
+     */
+
+    stats[0] =
+        String(cookies);
+
+
+    stats[1] =
+        String(totalCookies);
+
+
+    stats[8] =
+        String(cookiesReset);
+
+
+    /*
+     * Reconstruction de la section.
+     */
+
+    sections[4] =
+        stats.join(";");
+
+
+    /*
+     * Reconstruction complète.
+     */
+
+    const decoded =
+        sections.join("|");
+
+
+    /*
+     * Encodage Cookie Clicker.
+     */
+
+    const encoded =
+        encodeCookieSave(
+            decoded
+        );
+
+
+    /*
+     * Affichage.
+     */
+
+    document.getElementById(
+        "outputSave"
+    ).value =
+        encoded;
+
+
+    document.getElementById(
+        "outputCard"
+    ).classList.remove(
+        "hidden"
+    );
+
+}
+
+
+/* ==========================================
+   ENCODAGE COOKIE CLICKER
+========================================== */
+
+function encodeCookieSave(decoded){
+
+    /*
+     * Conversion UTF-8 -> Base64
+     */
+
+    const bytes =
+        new TextEncoder()
+            .encode(decoded);
+
+
+    let binary = "";
+
+    for(
+        let i = 0;
+        i < bytes.length;
+        i++
+    ){
+
+        binary +=
+            String.fromCharCode(
+                bytes[i]
+            );
+
+    }
+
+
+    return btoa(binary);
+
+}
+
+
+/* ==========================================
+   COPIER
+========================================== */
+
+async function copySave(){
+
+    const output =
         document.getElementById(
             "outputSave"
-        ).value = original;
-
-        document
-            .getElementById("result")
-            .classList.remove("hidden");
-
-    }
+        );
 
 
-    /*
-     * COPIER
-     */
-    async function copySave() {
+    try{
 
-        const output =
-            document.getElementById("outputSave");
+        await navigator.clipboard.writeText(
+            output.value
+        );
 
-        try {
+    }catch(error){
 
-            await navigator.clipboard.writeText(
-                output.value
-            );
+        output.select();
 
-            alert(
-                "Sauvegarde copiée dans le presse-papiers !"
-            );
-
-        } catch (e) {
-
-            output.select();
-            document.execCommand("copy");
-
-            alert(
-                "Sauvegarde copiée !"
-            );
-
-        }
+        document.execCommand(
+            "copy"
+        );
 
     }
 
 
-    /*
-     * ENTER POUR SE CONNECTER
-     */
-    document
-        .getElementById("password")
-        .addEventListener("keydown", function(event) {
+    const message =
+        document.getElementById(
+            "copyMessage"
+        );
 
-            if (event.key === "Enter") {
+
+    message.style.display =
+        "block";
+
+
+    setTimeout(
+        () => {
+
+            message.style.display =
+                "none";
+
+        },
+        2500
+    );
+
+}
+
+
+/* ==========================================
+   EFFACER
+========================================== */
+
+function clearSave(){
+
+    document.getElementById(
+        "saveInput"
+    ).value = "";
+
+
+    document.getElementById(
+        "editor"
+    ).classList.add(
+        "hidden"
+    );
+
+
+    document.getElementById(
+        "outputCard"
+    ).classList.add(
+        "hidden"
+    );
+
+
+    document.getElementById(
+        "error"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "success"
+    ).style.display =
+        "none";
+
+
+    currentSave =
+        null;
+
+}
+
+
+/* ==========================================
+   ENTER = CONNEXION
+========================================== */
+
+document
+    .getElementById("password")
+    .addEventListener(
+        "keydown",
+        function(event){
+
+            if(
+                event.key === "Enter"
+            ){
+
                 login();
+
             }
 
-        });
+        }
+    );
 
 </script>
 
