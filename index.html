@@ -2,13 +2,11 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Cookie Cheat</title>
 
 <style>
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
     margin:0;
@@ -18,14 +16,12 @@ body{
 }
 
 .container{
-    max-width:1000px;
+    max-width:1100px;
     margin:30px auto;
     padding:20px;
 }
 
-h1{
-    margin-top:0;
-}
+h1{margin-top:0}
 
 .card{
     background:#202020;
@@ -47,7 +43,7 @@ textarea{
     font-family:monospace;
 }
 
-input{
+input,select{
     width:100%;
     background:#292929;
     color:#eee;
@@ -68,18 +64,14 @@ button{
     font-weight:bold;
 }
 
-button:hover{
-    background:#ffc107;
-}
+button:hover{background:#ffc107}
 
 button.clear{
     background:#444;
     color:#eee;
 }
 
-button.clear:hover{
-    background:#555;
-}
+button.clear:hover{background:#555}
 
 .button-row{
     display:flex;
@@ -105,13 +97,11 @@ button.clear:hover{
     display:none;
 }
 
-.hidden{
-    display:none;
-}
+.hidden{display:none}
 
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
     gap:12px;
 }
 
@@ -130,6 +120,7 @@ button.clear:hover{
     margin-top:5px;
     font-size:21px;
     font-weight:bold;
+    word-break:break-word;
 }
 
 .field{
@@ -141,18 +132,67 @@ button.clear:hover{
     font-size:14px;
 }
 
+.section-title{
+    margin-top:28px;
+    padding-bottom:8px;
+    border-bottom:1px solid #3b3b3b;
+}
+
+.building-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:12px;
+}
+
+.building{
+    background:#292929;
+    padding:14px;
+    border-radius:8px;
+}
+
 .login{
     max-width:450px;
     margin:100px auto;
 }
 
-#app{
-    display:none;
+#app{display:none}
+
+.top-link{
+    position:fixed;
+    top:15px;
+    left:15px;
+    z-index:1000;
+    margin:0;
+    background:#292929;
+    color:#eee;
+    border:1px solid #555;
+    text-decoration:none;
+    padding:10px 15px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.top-link:hover{
+    background:#3a3a3a;
+}
+
+.small{
+    color:#888;
+    font-size:13px;
 }
 </style>
 </head>
 
 <body>
+
+<!-- LIEN OPTIMIZER -->
+<a
+    class="top-link"
+    href="https://clemsupp.github.io/cookie-optimizer/"
+>
+    Cookie Optimizer
+</a>
+
 
 <!-- =========================
      CONNEXION
@@ -175,7 +215,10 @@ button.clear:hover{
             autocomplete="off"
         >
 
-        <button onclick="login()">
+        <button
+            type="button"
+            onclick="login()"
+        >
             Entrer
         </button>
 
@@ -199,7 +242,7 @@ button.clear:hover{
     </p>
 
 
-    <!-- SAUVEGARDE -->
+    <!-- SAVE -->
 
     <div class="card">
 
@@ -212,7 +255,10 @@ button.clear:hover{
 
         <div class="button-row">
 
-            <button type="button" onclick="decodeSaveUI()">
+            <button
+                type="button"
+                onclick="decodeSaveUI()"
+            >
                 Décoder la sauvegarde
             </button>
 
@@ -233,9 +279,16 @@ button.clear:hover{
     </div>
 
 
-    <!-- EDITEUR -->
+    <!-- =========================
+         EDITEUR
+    ========================= -->
 
     <div id="editor" class="hidden">
+
+
+        <!-- =====================
+             RESUME
+        ====================== -->
 
         <div class="card">
 
@@ -244,66 +297,23 @@ button.clear:hover{
             <div class="grid">
 
                 <div class="stat">
-
-                    <div class="label">
-                        Cookies actuels
-                    </div>
-
-                    <div
-                        class="value"
-                        id="cookiesDisplay"
-                    >
-                        -
-                    </div>
-
+                    <div class="label">Cookies actuels</div>
+                    <div class="value" id="cookiesDisplay">-</div>
                 </div>
 
-
                 <div class="stat">
-
-                    <div class="label">
-                        Cookies totaux
-                    </div>
-
-                    <div
-                        class="value"
-                        id="totalCookiesDisplay"
-                    >
-                        -
-                    </div>
-
+                    <div class="label">Cookies gagnés</div>
+                    <div class="value" id="totalCookiesDisplay">-</div>
                 </div>
 
-
                 <div class="stat">
-
-                    <div class="label">
-                        Cookies reset
-                    </div>
-
-                    <div
-                        class="value"
-                        id="resetCookiesDisplay"
-                    >
-                        -
-                    </div>
-
+                    <div class="label">Cookies reset</div>
+                    <div class="value" id="resetCookiesDisplay">-</div>
                 </div>
 
-
                 <div class="stat">
-
-                    <div class="label">
-                        Prestige
-                    </div>
-
-                    <div
-                        class="value"
-                        id="prestigeDisplay"
-                    >
-                        -
-                    </div>
-
+                    <div class="label">Prestige estimé</div>
+                    <div class="value" id="prestigeDisplay">-</div>
                 </div>
 
             </div>
@@ -311,73 +321,241 @@ button.clear:hover{
         </div>
 
 
-        <!-- MODIFICATION -->
+        <!-- =====================
+             COOKIES
+        ====================== -->
 
         <div class="card">
 
-            <h2>⚙️ Modifier</h2>
+            <h2>🍪 Cookies</h2>
 
+            <div class="grid">
 
-            <div class="field">
+                <div class="field">
+                    <label>Cookies actuels</label>
+                    <input id="cookiesInput" type="text">
+                </div>
 
-                <label>
-                    Cookies actuels
-                </label>
+                <div class="field">
+                    <label>Cookies gagnés</label>
+                    <input id="totalCookiesInput" type="text">
+                </div>
 
-                <input
-                    id="cookiesInput"
-                    type="text"
-                    placeholder="Ex : 1000000000000"
-                >
+                <div class="field">
+                    <label>Cookies reset</label>
+                    <input id="resetCookiesInput" type="text">
+                </div>
 
-            </div>
+                <div class="field">
+                    <label>Cookies cliqués</label>
+                    <input id="cookieClicksInput" type="text">
+                </div>
 
+                <div class="field">
+                    <label>Golden Cookies cliqués</label>
+                    <input id="goldenClicksInput" type="text">
+                </div>
 
-            <div class="field">
+                <div class="field">
+                    <label>Cookies faits à la main</label>
+                    <input id="handmadeCookiesInput" type="text">
+                </div>
 
-                <label>
-                    Cookies totaux
-                </label>
+                <div class="field">
+                    <label>Cookies manqués</label>
+                    <input id="cookiesMissedInput" type="text">
+                </div>
 
-                <input
-                    id="totalCookiesInput"
-                    type="text"
-                    placeholder="Ex : 1000000000000"
-                >
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    Cookies reset
-                </label>
-
-                <input
-                    id="resetCookiesInput"
-                    type="text"
-                    placeholder="Ex : 1000000000000"
-                >
-
-            </div>
-
-
-            <div class="button-row">
-
-                <button
-                    type="button"
-                    onclick="generateSave()"
-                >
-                    🔨 Générer la sauvegarde
-                </button>
+                <div class="field">
+                    <label>Cookies cette ascension</label>
+                    <input id="cookiesThisAscensionInput" type="text">
+                </div>
 
             </div>
 
         </div>
 
 
-        <!-- NOUVELLE SAVE -->
+        <!-- =====================
+             PRESTIGE
+        ====================== -->
+
+        <div class="card">
+
+            <h2>👑 Prestige / Ascension</h2>
+
+            <div class="grid">
+
+                <div class="field">
+                    <label>Prestige calculé</label>
+                    <input id="prestigeInput" type="text">
+                </div>
+
+                <div class="field">
+                    <label>Cookies reset</label>
+                    <input id="prestigeCookiesInput" type="text">
+                </div>
+
+                <div class="field">
+                    <label>Cookies gagnés au total</label>
+                    <input id="prestigeTotalInput" type="text">
+                </div>
+
+            </div>
+
+            <p class="small">
+                Le prestige est normalement dérivé du nombre de cookies reset.
+            </p>
+
+        </div>
+
+
+        <!-- =====================
+             SUGAR LUMPS
+        ====================== -->
+
+        <div class="card">
+
+            <h2>🍬 Sugar Lumps</h2>
+
+            <div class="grid">
+
+                <div class="field">
+                    <label>Sugar Lumps</label>
+                    <input id="lumpsInput" type="text">
+                </div>
+
+                <div class="field">
+                    <label>Sugar Lumps récoltés</label>
+                    <input id="lumpsTotalInput" type="text">
+                </div>
+
+                <div class="field">
+                    <label>Type de Sugar Lump</label>
+                    <input id="lumpTypeInput" type="text">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================
+             DRAGON / SANTA
+        ====================== -->
+
+        <div class="card">
+
+            <h2>🐉 Dragon / Santa</h2>
+
+            <div class="grid">
+
+                <div class="field">
+                    <label>Niveau Santa</label>
+                    <input id="santaLevelInput" type="text">
+                </div>
+
+                <div class="field">
+                    <label>Aura dragon 1</label>
+                    <input id="dragonAura1Input" type="text">
+                </div>
+
+                <div class="field">
+                    <label>Aura dragon 2</label>
+                    <input id="dragonAura2Input" type="text">
+                </div>
+
+                <div class="field">
+                    <label>Niveau dragon</label>
+                    <input id="dragonLevelInput" type="text">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================
+             BÂTIMENTS
+        ====================== -->
+
+        <div class="card">
+
+            <h2>🏭 Bâtiments</h2>
+
+            <p class="small">
+                Modifie la quantité de chaque bâtiment.
+            </p>
+
+            <div
+                class="building-grid"
+                id="buildingsContainer"
+            ></div>
+
+        </div>
+
+
+        <!-- =====================
+             AUTRES
+        ====================== -->
+
+        <div class="card">
+
+            <h2>⚙️ Autres statistiques</h2>
+
+            <div class="grid">
+
+                <div class="field">
+                    <label>Nom de la boulangerie</label>
+                    <input id="bakeryNameInput" type="text">
+                </div>
+
+                <div class="field">
+                    <label>Seed</label>
+                    <input id="seedInput" type="text">
+                </div>
+
+                <div class="field">
+                    <label>Date de début</label>
+                    <input id="startDateInput" type="text">
+                </div>
+
+                <div class="field">
+                    <label>Date legacy</label>
+                    <input id="fullDateInput" type="text">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================
+             GENERATION
+        ====================== -->
+
+        <div class="card">
+
+            <h2>🔨 Générer</h2>
+
+            <p>
+                Toutes les parties non modifiées de ta sauvegarde
+                sont conservées.
+            </p>
+
+            <button
+                type="button"
+                onclick="generateSave()"
+            >
+                🔨 Générer la sauvegarde
+            </button>
+
+        </div>
+
+
+        <!-- =====================
+             OUTPUT
+        ====================== -->
 
         <div
             class="card hidden"
@@ -387,8 +565,8 @@ button.clear:hover{
             <h2>📤 Nouvelle sauvegarde</h2>
 
             <p>
-                Copie cette sauvegarde puis importe-la
-                dans Cookie Clicker.
+                Copie cette sauvegarde puis importe-la dans
+                Cookie Clicker.
             </p>
 
             <textarea
@@ -426,28 +604,122 @@ button.clear:hover{
 const PASSWORD = "passe";
 
 
+/* ==========================================
+   BATIMENTS
+========================================== */
+
+const BUILDINGS = [
+    "Curseur",
+    "Grand-mère",
+    "Ferme",
+    "Mine",
+    "Usine",
+    "Banque",
+    "Temple",
+    "Tour de magie",
+    "Expédition",
+    "Laboratoire d'alchimie",
+    "Portail",
+    "Machine à voyager dans le temps",
+    "Prisme",
+    "Moteur fractal",
+    "Condenseur",
+    "Cortex Baker",
+    "You",
+    "Javascript"
+];
+
+
+let currentSave = null;
+
+
+/* ==========================================
+   CONSTRUCTION DES CHAMPS BÂTIMENTS
+========================================== */
+
+function createBuildingFields(){
+
+    const container =
+        document.getElementById(
+            "buildingsContainer"
+        );
+
+
+    BUILDINGS.forEach(
+        function(name,index){
+
+            const div =
+                document.createElement("div");
+
+
+            div.className =
+                "building";
+
+
+            div.innerHTML = `
+                <strong>${name}</strong>
+                <div class="field">
+                    <label>Quantité</label>
+                    <input
+                        type="text"
+                        id="building_${index}"
+                        value="0"
+                    >
+                </div>
+            `;
+
+
+            container.appendChild(div);
+
+        }
+    );
+
+}
+
+
+createBuildingFields();
+
+
+/* ==========================================
+   LOGIN
+========================================== */
+
 function login(){
 
     const password =
-        document.getElementById("password").value;
+        document.getElementById(
+            "password"
+        ).value;
+
 
     const error =
-        document.getElementById("loginError");
+        document.getElementById(
+            "loginError"
+        );
+
 
     error.style.display = "none";
 
+
     if(password === PASSWORD){
 
-        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById(
+            "loginScreen"
+        ).style.display = "none";
 
-        document.getElementById("app").style.display = "block";
+
+        document.getElementById(
+            "app"
+        ).style.display = "block";
 
     }else{
 
         error.textContent =
             "Mot de passe incorrect.";
 
-        error.style.display = "block";
+
+        error.style.display =
+            "block";
 
     }
 
@@ -468,22 +740,25 @@ function numberValue(value){
         return 0;
     }
 
-    let text = String(value)
-        .trim()
-        .replace(/,/g,"")
-        .replace(/\s/g,"");
 
-    /*
-     * Accepte aussi les nombres avec .
-     */
+    let text =
+        String(value)
+            .trim()
+            .replace(/,/g,"")
+            .replace(/\s/g,"");
 
-    const number = Number(text);
+
+    const number =
+        Number(text);
+
 
     if(!Number.isFinite(number)){
         return 0;
     }
 
+
     return number;
+
 }
 
 
@@ -493,22 +768,26 @@ function formatNumber(number){
         return "∞";
     }
 
+
     return number.toLocaleString(
         "fr-FR",
         {
             maximumFractionDigits:2
         }
     );
+
 }
 
 
 /* ==========================================
-   DÉCODAGE COOKIE CLICKER
+   DÉCODAGE
 ========================================== */
 
 function decodeCookieSave(input){
 
-    input = input.trim();
+    input =
+        input.trim();
+
 
     if(!input){
 
@@ -520,30 +799,19 @@ function decodeCookieSave(input){
 
 
     /*
-     * Certaines sauvegardes sont URL-encodées.
-     *
-     * Exemple :
-     * %3D
-     * %21
-     * etc.
+     * URL decoding
      */
 
     try{
 
-        input = decodeURIComponent(input);
+        input =
+            decodeURIComponent(input);
 
-    }catch(e){
-
-        /*
-         * Si elle n'est pas URL-encodée,
-         * on continue normalement.
-         */
-
-    }
+    }catch(e){}
 
 
     /*
-     * Retirer !END! s'il est présent.
+     * Retirer !END!
      */
 
     if(input.includes("!END!")){
@@ -554,18 +822,12 @@ function decodeCookieSave(input){
     }
 
 
-    /*
-     * Retirer les espaces et retours
-     * à la ligne.
-     */
-
     input =
         input.replace(/\s/g,"");
 
 
     /*
-     * Si le texte est déjà décodé,
-     * on peut directement l'utiliser.
+     * Déjà décodée
      */
 
     if(
@@ -579,37 +841,41 @@ function decodeCookieSave(input){
 
 
     /*
-     * Décodage Base64.
+     * Base64
      */
 
     let binary;
 
+
     try{
 
-        binary = atob(input);
+        binary =
+            atob(input);
 
     }catch(e){
 
         throw new Error(
-            "Impossible de décoder la sauvegarde. Vérifie que tu as copié toute la sauvegarde Cookie Clicker."
+            "Impossible de décoder la sauvegarde. Vérifie que tu as copié toute la sauvegarde."
         );
 
     }
 
 
     /*
-     * Conversion binaire -> UTF-8.
+     * UTF-8
      */
 
     try{
 
         const bytes =
-            new Uint8Array(binary.length);
+            new Uint8Array(
+                binary.length
+            );
 
 
         for(
-            let i = 0;
-            i < binary.length;
+            let i=0;
+            i<binary.length;
             i++
         ){
 
@@ -620,29 +886,22 @@ function decodeCookieSave(input){
 
 
         const decoded =
-            new TextDecoder("utf-8")
-                .decode(bytes);
+            new TextDecoder(
+                "utf-8"
+            ).decode(bytes);
 
 
-        if(
-            decoded.includes("|")
-        ){
+        if(decoded.includes("|")){
 
             return decoded;
 
         }
 
-    }catch(e){
-
-        /*
-         * On essaie la méthode de secours.
-         */
-
-    }
+    }catch(e){}
 
 
     /*
-     * Méthode de secours.
+     * Fallback
      */
 
     try{
@@ -653,32 +912,50 @@ function decodeCookieSave(input){
             );
 
 
-        if(
-            decoded.includes("|")
-        ){
+        if(decoded.includes("|")){
 
             return decoded;
 
         }
 
-    }catch(e){
-
-        /*
-         * Rien.
-         */
-
-    }
+    }catch(e){}
 
 
     throw new Error(
-        "La sauvegarde a été décodée mais son format n'est pas reconnu."
+        "Le format de la sauvegarde n'est pas reconnu."
     );
 
 }
 
 
 /* ==========================================
-   ANALYSE DE LA SAVE
+   PRESTIGE
+========================================== */
+
+function calculatePrestige(cookies){
+
+    if(cookies <= 0){
+        return 0;
+    }
+
+
+    const x =
+        cookies / 1e12;
+
+
+    return Math.floor(
+        (
+            Math.sqrt(
+                1 + 8*x
+            ) - 1
+        ) / 2
+    );
+
+}
+
+
+/* ==========================================
+   PARSER
 ========================================== */
 
 function parseCookieSave(decoded){
@@ -687,140 +964,174 @@ function parseCookieSave(decoded){
         decoded.split("|");
 
 
-    if(
-        sections.length < 6
-    ){
+    if(sections.length < 6){
 
         throw new Error(
-            "Cette sauvegarde ne possède pas le format Cookie Clicker attendu."
+            "La sauvegarde ne possède pas assez de sections."
         );
 
     }
+
+
+    /*
+     * Section 2 :
+     * startDate
+     * fullDate
+     * lastDate
+     * bakeryName
+     * seed
+     */
+
+    const run =
+        (
+            sections[2] || ""
+        ).split(";");
 
 
     /*
      * Section 4 :
-     *
-     * 0 = cookies actuels
-     * 1 = cookies gagnés
-     * ...
-     * 8 = cookies reset
+     * statistiques principales
      */
 
-    const cookieSection =
-        sections[4] || "";
-
-
     const stats =
-        cookieSection.split(";");
+        (
+            sections[4] || ""
+        ).split(";");
 
 
-    const cookies =
-        numberValue(
-            stats[0]
-        );
+    const save = {
+
+        sections: sections,
+
+        version: sections[0] || "",
+
+        startDate:
+            run[0] || "",
+
+        fullDate:
+            run[1] || "",
+
+        lastDate:
+            run[2] || "",
+
+        bakeryName:
+            run[3] || "",
+
+        seed:
+            run[4] || "",
+
+        stats: stats,
+
+        cookies:
+            numberValue(stats[0]),
+
+        cookiesEarned:
+            numberValue(stats[1]),
+
+        cookieClicks:
+            numberValue(stats[2]),
+
+        goldenClicks:
+            numberValue(stats[3]),
+
+        handmadeCookies:
+            numberValue(stats[4]),
+
+        cookiesMissed:
+            numberValue(stats[5]),
+
+        cookiesThisAscension:
+            numberValue(stats[6]),
+
+        cookiesReset:
+            numberValue(stats[8])
+
+    };
 
 
-    const cookiesEarned =
-        numberValue(
-            stats[1]
-        );
-
-
-    const cookiesReset =
-        numberValue(
-            stats[8]
+    save.prestige =
+        calculatePrestige(
+            save.cookiesReset
         );
 
 
     /*
-     * Estimation du prestige.
+     * Bâtiments
      */
 
-    let prestige = 0;
+    save.buildings =
+        (
+            sections[5] || ""
+        ).split(";");
 
 
-    if(cookiesReset > 0){
-
-        const value =
-            cookiesReset / 1000000000000;
-
-
-        prestige =
-            Math.floor(
-                (
-                    Math.sqrt(
-                        1 + 8 * value
-                    ) - 1
-                ) / 2
-            );
-
-    }
-
-
-    return {
-
-        sections: sections,
-
-        cookies: cookies,
-
-        cookiesEarned: cookiesEarned,
-
-        cookiesReset: cookiesReset,
-
-        prestige: prestige
-
-    };
+    return save;
 
 }
 
 
 /* ==========================================
-   VARIABLE SAVE ACTUELLE
+   AFFICHAGE D'UN CHAMP
 ========================================== */
 
-let currentSave = null;
+function setValue(id,value){
+
+    const element =
+        document.getElementById(id);
+
+
+    if(element){
+        element.value =
+            value ?? "";
+    }
+
+}
 
 
 /* ==========================================
-   DÉCODER
+   DÉCODER + AFFICHER
 ========================================== */
 
 function decodeSaveUI(){
 
     const error =
-        document.getElementById("error");
+        document.getElementById(
+            "error"
+        );
 
 
     const success =
-        document.getElementById("success");
+        document.getElementById(
+            "success"
+        );
 
 
-    error.style.display = "none";
+    error.style.display =
+        "none";
 
-    success.style.display = "none";
+
+    success.style.display =
+        "none";
 
 
     try{
 
         const input =
-            document.getElementById("saveInput").value;
+            document.getElementById(
+                "saveInput"
+            ).value;
 
-
-        /*
-         * Décodage.
-         */
 
         const decoded =
-            decodeCookieSave(input);
+            decodeCookieSave(
+                input
+            );
 
-
-        /*
-         * Analyse.
-         */
 
         const save =
-            parseCookieSave(decoded);
+            parseCookieSave(
+                decoded
+            );
 
 
         currentSave =
@@ -828,7 +1139,7 @@ function decodeSaveUI(){
 
 
         /*
-         * Affichage cookies.
+         * Résumé
          */
 
         document.getElementById(
@@ -864,29 +1175,133 @@ function decodeSaveUI(){
 
 
         /*
-         * Remplir les champs.
+         * Cookies
          */
 
-        document.getElementById(
-            "cookiesInput"
-        ).value =
-            save.cookies;
+        setValue(
+            "cookiesInput",
+            save.cookies
+        );
 
 
-        document.getElementById(
-            "totalCookiesInput"
-        ).value =
-            save.cookiesEarned;
+        setValue(
+            "totalCookiesInput",
+            save.cookiesEarned
+        );
 
 
-        document.getElementById(
-            "resetCookiesInput"
-        ).value =
-            save.cookiesReset;
+        setValue(
+            "resetCookiesInput",
+            save.cookiesReset
+        );
+
+
+        setValue(
+            "cookieClicksInput",
+            save.cookieClicks
+        );
+
+
+        setValue(
+            "goldenClicksInput",
+            save.goldenClicks
+        );
+
+
+        setValue(
+            "handmadeCookiesInput",
+            save.handmadeCookies
+        );
+
+
+        setValue(
+            "cookiesMissedInput",
+            save.cookiesMissed
+        );
+
+
+        setValue(
+            "cookiesThisAscensionInput",
+            save.cookiesThisAscension
+        );
 
 
         /*
-         * Afficher l'éditeur.
+         * Prestige
+         */
+
+        setValue(
+            "prestigeInput",
+            save.prestige
+        );
+
+
+        setValue(
+            "prestigeCookiesInput",
+            save.cookiesReset
+        );
+
+
+        setValue(
+            "prestigeTotalInput",
+            save.cookiesEarned
+        );
+
+
+        /*
+         * Autres
+         */
+
+        setValue(
+            "bakeryNameInput",
+            save.bakeryName
+        );
+
+
+        setValue(
+            "seedInput",
+            save.seed
+        );
+
+
+        setValue(
+            "startDateInput",
+            save.startDate
+        );
+
+
+        setValue(
+            "fullDateInput",
+            save.fullDate
+        );
+
+
+        /*
+         * Bâtiments
+         */
+
+        save.buildings.forEach(
+            function(value,index){
+
+                const field =
+                    document.getElementById(
+                        "building_" + index
+                    );
+
+
+                if(field){
+
+                    field.value =
+                        numberValue(value);
+
+                }
+
+            }
+        );
+
+
+        /*
+         * Afficher éditeur
          */
 
         document.getElementById(
@@ -897,21 +1312,21 @@ function decodeSaveUI(){
 
 
         success.textContent =
-            "✓ Sauvegarde Cookie Clicker décodée avec succès.";
+            "✓ Sauvegarde décodée avec succès.";
 
 
         success.style.display =
             "block";
 
 
-    }catch(error){
+    }catch(e){
 
-        console.error(error);
+        console.error(e);
 
 
         error.textContent =
-            error.message ||
-            "Une erreur est survenue.";
+            e.message ||
+            "Erreur inconnue.";
 
 
         error.style.display =
@@ -923,7 +1338,28 @@ function decodeSaveUI(){
 
 
 /* ==========================================
-   GÉNÉRER LA NOUVELLE SAVE
+   MODIFIER UNE SECTION
+========================================== */
+
+function replaceStat(
+    stats,
+    index,
+    value
+){
+
+    while(stats.length <= index){
+        stats.push("0");
+    }
+
+
+    stats[index] =
+        String(value);
+
+}
+
+
+/* ==========================================
+   GÉNÉRER
 ========================================== */
 
 function generateSave(){
@@ -940,7 +1376,7 @@ function generateSave(){
 
 
     /*
-     * Copie des sections.
+     * Copie complète.
      */
 
     const sections =
@@ -950,7 +1386,54 @@ function generateSave(){
 
 
     /*
-     * Section des statistiques.
+     * -------------------------
+     * RUN DETAILS
+     * -------------------------
+     */
+
+    const run =
+        (
+            sections[2] || ""
+        ).split(";");
+
+
+    while(run.length < 5){
+        run.push("");
+    }
+
+
+    run[0] =
+        document.getElementById(
+            "startDateInput"
+        ).value;
+
+
+    run[1] =
+        document.getElementById(
+            "fullDateInput"
+        ).value;
+
+
+    run[3] =
+        document.getElementById(
+            "bakeryNameInput"
+        ).value;
+
+
+    run[4] =
+        document.getElementById(
+            "seedInput"
+        ).value;
+
+
+    sections[2] =
+        run.join(";");
+
+
+    /*
+     * -------------------------
+     * STATS
+     * -------------------------
      */
 
     const stats =
@@ -959,60 +1442,156 @@ function generateSave(){
         ).split(";");
 
 
-    /*
-     * Nouvelles valeurs.
-     */
-
-    const cookies =
+    replaceStat(
+        stats,
+        0,
         numberValue(
             document.getElementById(
                 "cookiesInput"
             ).value
-        );
+        )
+    );
 
 
-    const totalCookies =
+    replaceStat(
+        stats,
+        1,
         numberValue(
             document.getElementById(
                 "totalCookiesInput"
             ).value
-        );
+        )
+    );
 
 
-    const cookiesReset =
+    replaceStat(
+        stats,
+        2,
+        numberValue(
+            document.getElementById(
+                "cookieClicksInput"
+            ).value
+        )
+    );
+
+
+    replaceStat(
+        stats,
+        3,
+        numberValue(
+            document.getElementById(
+                "goldenClicksInput"
+            ).value
+        )
+    );
+
+
+    replaceStat(
+        stats,
+        4,
+        numberValue(
+            document.getElementById(
+                "handmadeCookiesInput"
+            ).value
+        )
+    );
+
+
+    replaceStat(
+        stats,
+        5,
+        numberValue(
+            document.getElementById(
+                "cookiesMissedInput"
+            ).value
+        )
+    );
+
+
+    replaceStat(
+        stats,
+        6,
+        numberValue(
+            document.getElementById(
+                "cookiesThisAscensionInput"
+            ).value
+        )
+    );
+
+
+    replaceStat(
+        stats,
+        8,
         numberValue(
             document.getElementById(
                 "resetCookiesInput"
             ).value
-        );
+        )
+    );
 
-
-    /*
-     * Modification.
-     */
-
-    stats[0] =
-        String(cookies);
-
-
-    stats[1] =
-        String(totalCookies);
-
-
-    stats[8] =
-        String(cookiesReset);
-
-
-    /*
-     * Reconstruction de la section.
-     */
 
     sections[4] =
         stats.join(";");
 
 
     /*
-     * Reconstruction complète.
+     * -------------------------
+     * BÂTIMENTS
+     * -------------------------
+     *
+     * On ne modifie les bâtiments
+     * que si la section contient
+     * suffisamment de données.
+     */
+
+    const buildings =
+        (
+            sections[5] || ""
+        ).split(";");
+
+
+    for(
+        let i = 0;
+        i < BUILDINGS.length;
+        i++
+    ){
+
+        const field =
+            document.getElementById(
+                "building_" + i
+            );
+
+
+        if(
+            field &&
+            i < buildings.length
+        ){
+
+            buildings[i] =
+                String(
+                    Math.max(
+                        0,
+                        Math.floor(
+                            numberValue(
+                                field.value
+                            )
+                        )
+                    )
+                );
+
+        }
+
+    }
+
+
+    sections[5] =
+        buildings.join(";");
+
+
+    /*
+     * -------------------------
+     * RECONSTRUCTION
+     * -------------------------
      */
 
     const decoded =
@@ -1020,15 +1599,17 @@ function generateSave(){
 
 
     /*
-     * Réencodage.
+     * ENCODAGE
      */
 
     const encoded =
-        encodeCookieSave(decoded);
+        encodeCookieSave(
+            decoded
+        );
 
 
     /*
-     * Affichage.
+     * AFFICHAGE
      */
 
     document.getElementById(
@@ -1047,30 +1628,22 @@ function generateSave(){
 
 
 /* ==========================================
-   ENCODAGE COOKIE CLICKER
+   ENCODAGE
 ========================================== */
 
 function encodeCookieSave(decoded){
-
-    /*
-     * Texte -> UTF-8
-     */
 
     const bytes =
         new TextEncoder()
             .encode(decoded);
 
 
-    /*
-     * UTF-8 -> binaire
-     */
-
     let binary = "";
 
 
     for(
-        let i = 0;
-        i < bytes.length;
+        let i=0;
+        i<bytes.length;
         i++
     ){
 
@@ -1082,20 +1655,19 @@ function encodeCookieSave(decoded){
     }
 
 
-    /*
-     * Binaire -> Base64
-     */
-
     const base64 =
         btoa(binary);
 
 
     /*
-     * Format exporté.
+     * Cookie Clicker attend
+     * le suffixe !END!
      */
 
     return (
-        encodeURIComponent(base64) +
+        encodeURIComponent(
+            base64
+        ) +
         "%21END%21"
     );
 
@@ -1120,7 +1692,7 @@ async function copySave(){
             output.value
         );
 
-    }catch(error){
+    }catch(e){
 
         output.select();
 
@@ -1162,7 +1734,8 @@ function clearSave(){
 
     document.getElementById(
         "saveInput"
-    ).value = "";
+    ).value =
+        "";
 
 
     document.getElementById(
@@ -1198,7 +1771,7 @@ function clearSave(){
 
 
 /* ==========================================
-   TOUCHE ENTRÉE POUR LE MOT DE PASSE
+   ENTER = LOGIN
 ========================================== */
 
 document
